@@ -16,6 +16,8 @@ class App extends React.Component {
             playerCards: [],
             computerCards: []
         }
+
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -71,7 +73,6 @@ class App extends React.Component {
         return array;
     }
 
-
     dealCards(array, num) {
         const deck = this.shuffleCards(this.cleanData([...array]));
 
@@ -87,12 +88,20 @@ class App extends React.Component {
         });
     }
 
+    handleClick(value) {
+        console.log(value);
+    }
+
 
     render() {
         return (
             <div className="app">
                 {this.state.playerCards.map((card, i) => {
-                    return <Card key={i} title={card.name} properties={card.properties} />
+                    return <Card
+                        key={i}
+                        title={card.name}
+                        properties={card.properties}
+                        handleClick={this.handleClick} />
                 })}
             </div>
         )
