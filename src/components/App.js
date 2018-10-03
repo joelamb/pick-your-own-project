@@ -15,7 +15,9 @@ class App extends React.Component {
             numCards: 5,
             playerCards: [],
             computerCards: [],
-            round: 1
+            round: 1,
+            roundResult: "player"
+
         }
 
         this.handleCardClick = this.handleCardClick.bind(this);
@@ -76,7 +78,6 @@ class App extends React.Component {
 
     dealCards(array, num) {
         const deck = this.shuffleCards(this.cleanData([...array]));
-
         this.setState({
             playerCards: deck.filter((card, i) => {
                 return i < num;
@@ -90,18 +91,25 @@ class App extends React.Component {
     }
 
     handleCardClick(value, key) {
-        console.log(this.state.playerCards);
-        console.log(this.state.computerCards);
+        console.log(this.state.playerCards[0]);
+        console.log(this.state.computerCards[0]);
         console.log(value);
         console.log(this.state.computerCards[0].properties[key]);
-        const result = this.findRoundWinner(value, this.state.computerCards[0].properties[key]);
-        console.log(result);
+        return (value === 'unknown') ? "Please choose a different property" : this.findRoundWinner(value, this.state.computerCards[0].properties[key]);
     }
 
     findRoundWinner(playerValue, computerValue) {
-        return playerValue === computerValue ? "Draw! Pick another property" :
-            playerValue > computerValue ? "You Win!" :
-                "You Lose!"
+        let outcome = "";
+        if (playerValue === computerValue) {
+            outcome = 'draw';
+        } else if (playerValue > computerValue) {
+            outcome = 'win';
+        } else {
+            outcome = 'lose';
+        }
+        this.setState({
+            roundResult: outcome
+        })
     }
 
     advanceRound() {
