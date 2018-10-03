@@ -109,7 +109,7 @@ class App extends React.Component {
         }
         this.setState({
             roundResult: outcome
-        })
+        }, () => this.state.roundResult !== 'draw' && this.advanceRound())
     }
 
     advanceRound() {
