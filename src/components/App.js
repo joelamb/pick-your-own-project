@@ -1,14 +1,11 @@
 import React from 'react';
 import Card from './Card';
 
-
 import '../styles/components/app.scss';
 
 class App extends React.Component {
-
     constructor() {
         super();
-
         this.state = {
             url: "https://swapi.co/api/vehicles/?page=1",
             allCards: [],
@@ -16,10 +13,8 @@ class App extends React.Component {
             playerCards: [],
             computerCards: [],
             round: 1,
-            roundResult: "player"
-
+            roundResult: ""
         }
-
         this.handleCardClick = this.handleCardClick.bind(this);
     }
 
@@ -34,27 +29,22 @@ class App extends React.Component {
                 this.setState({
                     allCards: this.state.allCards.concat(data.results)
                 }, () => {
-                    !data.next ? this.getData(data.next) : this.dealCards(this.state.allCards, this.state.numCards);
+                    !!data.next ? this.getData(data.next) : this.dealCards(this.state.allCards, this.state.numCards);
                 });
             });
-    }
+    };
 
-    cleanData(array) {
-        return array.map(card => {
-            return Object.assign({}, {
-                name: card.name,
-                properties: {
-                    'crew': card.crew,
-                    'maximum speed': card.max_atmosphering_speed,
-                    'passengers': card.passengers,
-                    'cargo capacity': card.cargo_capacity,
-                    'consumable': card.consumables,
-                    'length': card.length,
-                    'cost (in credits)': card.cost_in_credits
-                }
+    dealCards(array, num) {
+        const deck = this.shuffleCards(this.cleanData([...array]));
+        this.setState({
+            playerCards: deck.filter((card, i) => {
+                return i < num;
+            }),
+            computerCards: deck.filter((card, i) => {
+                return i >= num && i < (num * 2);
             })
         });
-    }
+    };
 
     shuffleCards(array) {
         let currentIndex = array.length;
@@ -74,29 +64,29 @@ class App extends React.Component {
             array[randomIndex] = temporaryValue;
         }
         return array;
-    }
+    };
 
-    dealCards(array, num) {
-        const deck = this.shuffleCards(this.cleanData([...array]));
-        this.setState({
-            playerCards: deck.filter((card, i) => {
-                return i < num;
+
+    cleanData(array) {
+        return array.map(card => {
+            return Object.assign({}, {
+                name: card.name,
+                properties: {
+                    'crew': !+card.crew ? "No data" : +card.crew,
+                    'maximum speed': !+card.max_atmosphering_speed ? "No data" : card.max_atmosphering_speed,
+                    'passengers': !+card.passengers ? "No data" : card.passengers,
+                    'cargo capacity': !+card.cargo_capacity ? "No data" : +card.cargo_capacity,
+                    // 'consumable': card.consumables,
+                    'length': +card.length,
+                    'cost (in credits)': !+card.cost_in_credits ? "No data" : +card.cost_in_credits
+                }
             })
         });
-        this.setState({
-            computerCards: deck.filter((card, i) => {
-                return i >= num && i < (num * 2);
-            })
-        });
-    }
+    };
 
     handleCardClick(value, key) {
-        console.log(this.state.playerCards[0]);
-        console.log(this.state.computerCards[0]);
-        console.log(value);
-        console.log(this.state.computerCards[0].properties[key]);
-        return (value === 'unknown') ? "Please choose a different property" : this.findRoundWinner(value, this.state.computerCards[0].properties[key]);
-    }
+        return (value === 'NaN') ? "Please choose a different property" : this.findRoundWinner(value, this.state.computerCards[0].properties[key]);
+    };
 
     findRoundWinner(playerValue, computerValue) {
         let outcome = "";
@@ -107,9 +97,10 @@ class App extends React.Component {
         } else {
             outcome = 'lose';
         }
-        this.setState({
-            roundResult: outcome
-        }, () => this.state.roundResult !== 'draw' && this.advanceRound())
+        // this.setState({
+        //     roundResult: outcome
+        // });
+        this.winCard(outcome);
     }
 
     advanceRound() {
@@ -118,17 +109,45 @@ class App extends React.Component {
         });
     }
 
+    winCard(result) {
+        if (result === 'win') {
+            this.setState({
+                playerCards: this.state.playerCards.concat(this.state.computerCards[0]),
+                computerCards: this.state.computerCards.filter((card, i) => i > 0)
+            })
+        } else if (result === 'lose') {
+            this.setState({
+                computerCards: this.state.computerCards.concat(this.state.playerCards[0]),
+                playerCards: this.state.playerCards.filter((card, i) => i > 0)
+            })
+        }
+    }
+
 
     render() {
         return (
             <div className="app">
-                {this.state.playerCards.filter((card, i) => i === 0).map((card, i) => {
-                    return <Card
-                        key={i}
-                        title={card.name}
-                        properties={card.properties}
-                        handleCardClick={this.handleCardClick} />
-                })}
+                {this.state.playerCards
+                    // .filter((card, i) => i === 0)
+                    .map((card, i) => {
+                        return <Card
+                            key={i}
+                            title={card.name}
+                            properties={card.properties}
+                            handleCardClick={this.handleCardClick} />
+                    })}
+                {console.log(!!this.state.roundResult)}
+                {!!this.state.roundResult &&
+                    this.state.computerCards
+                        // .filter((card, i) => i === 0)
+                        .map((card, i) => {
+                            return <Card
+                                key={i}
+                                title={card.name}
+                                properties={card.properties}
+                                handleCardClick={this.handleCardClick} />
+                        })
+                }
             </div>
         )
     }
