@@ -1,4 +1,6 @@
 import React from 'react';
+import Card from './Card';
+
 
 import '../styles/components/app.scss';
 
@@ -27,32 +29,37 @@ class App extends React.Component {
                 this.setState({
                     allCards: this.state.allCards.concat(data.results)
                 }, () => {
-                    if (data.next) {
-                        this.getData(data.next)
-                    } else {
-
-                        this.dealCards(this.state.allCards, this.state.numCards);
-                    }
+                    !data.next ? this.getData(data.next) : this.dealCards(this.state.allCards, this.state.numCards);
                 });
             });
     }
 
     dealCards(array, num) {
-        const deck = [...array];
-        this.shuffleCards(deck);
-        console.log(this.state.allCards);
-        console.log(deck);
+        const deck = this.shuffleCards([...array])
+            .map(card => {
+                return Object.assign({}, {
+                    name: card.name,
+                    properties: {
+                        'crew': card.crew,
+                        'maximum speed': card.max_atmosphering_speed,
+                        'passengers': card.passengers,
+                        'cargo capacity': card.cargo_capacity,
+                        'consumable': card.consumables,
+                        'length': card.length,
+                        'cost (in credits)': card.cost_in_credits
+                    }
+                })
+            });
         this.setState({
             playerCards: deck.filter((card, i) => {
                 return i < num;
             })
-        }, () => console.log(this.state.playerCards));
+        });
         this.setState({
             computerCards: deck.filter((card, i) => {
                 return i >= num && i < (num * 2);
             })
-        }, () => console.log(this.state.computerCards))
-
+        });
     }
 
     shuffleCards(array) {
@@ -78,7 +85,9 @@ class App extends React.Component {
     render() {
         return (
             <div className="app">
-
+                {this.state.playerCards.map((card, i) => {
+                    return <Card key={i} title={card.name} properties={card.properties} />
+                })}
             </div>
         )
     }
