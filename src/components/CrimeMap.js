@@ -4,7 +4,7 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-map
 
 const CrimeMap = withScriptjs(withGoogleMap((props) =>
     <GoogleMap
-        defaultZoom={8}
+        defaultZoom={14}
         defaultCenter={{ lat: 51.4111, lng: - 0.050184 }}
     >
         {props.isMarkerShown && <Marker position={{ lat: 51.4111, lng: - 0.050184 }} />}
