@@ -111,7 +111,10 @@ class App extends React.Component {
     roundAdvance(result) {
         if (result === 'win') {
             this.setState({
-                playerCards: this.state.playerCards.concat(this.state.computerCards[0]),
+                playerCards: this.state.playerCards.concat(this.state.computerCards[0])
+                    .map((card, i, array) => {
+                        if (i + 1 === array.length) { return array[0] } else { return array[i + 1] }
+                    }),
                 computerCards: this.state.computerCards.filter((card, i) => i > 0),
                 roundResult: '',
                 round: this.state.round + 1,
@@ -119,7 +122,10 @@ class App extends React.Component {
             })
         } else if (result === 'lose') {
             this.setState({
-                computerCards: this.state.computerCards.concat(this.state.playerCards[0]),
+                computerCards: this.state.computerCards.concat(this.state.playerCards[0])
+                    .map((card, i, array) => {
+                        if (i + 1 === array.length) { return array[0] } else { return array[i + 1] }
+                    }),
                 playerCards: this.state.playerCards.filter((card, i) => i > 0),
                 roundResult: '',
                 round: this.state.round + 1,
@@ -159,6 +165,5 @@ class App extends React.Component {
         )
     }
 }
-
 
 export default App;
