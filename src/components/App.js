@@ -13,9 +13,14 @@ class App extends React.Component {
             playerCards: [],
             computerCards: [],
             round: 1,
-            roundResult: ""
+            roundResult: '',
+            score: {
+                player: 0,
+                computer: 0
+            }
         }
         this.handleCardClick = this.handleCardClick.bind(this);
+        this.roundAdvance = this.roundAdvance.bind(this);
     }
 
     componentDidMount() {
@@ -77,7 +82,7 @@ class App extends React.Component {
                     'passengers': !+card.passengers ? "No data" : card.passengers,
                     'cargo capacity': !+card.cargo_capacity ? "No data" : +card.cargo_capacity,
                     // 'consumable': card.consumables,
-                    'length': +card.length,
+                    'length': !+card.length ? "No data" : +card.length,
                     'cost (in credits)': !+card.cost_in_credits ? "No data" : +card.cost_in_credits
                 }
             })
@@ -85,50 +90,49 @@ class App extends React.Component {
     };
 
     handleCardClick(value, key) {
-        return (value === 'NaN') ? "Please choose a different property" : this.findRoundWinner(value, this.state.computerCards[0].properties[key]);
+        (value === 'No data') ? console.log("Please choose a different property") : this.findRoundWinner(value, this.state.computerCards[0].properties[key]);
     };
 
     findRoundWinner(playerValue, computerValue) {
-        let outcome = "";
-        if (playerValue === computerValue) {
-            outcome = 'draw';
-        } else if (playerValue > computerValue) {
-            outcome = 'win';
+        if (playerValue > computerValue) {
+            this.setState({
+                roundResult: 'win'
+            });
         } else {
-            outcome = 'lose';
+            this.setState({
+                roundResult: 'lose'
+            });
         }
-        // this.setState({
-        //     roundResult: outcome
-        // });
-        this.winCard(outcome);
     }
 
-    advanceRound() {
-        this.setState({
-            round: this.state.round + 1
-        });
-    }
+    // click Next Round button to reset roundResult to "" and do card collection
 
-    winCard(result) {
+
+    roundAdvance(result) {
         if (result === 'win') {
             this.setState({
                 playerCards: this.state.playerCards.concat(this.state.computerCards[0]),
-                computerCards: this.state.computerCards.filter((card, i) => i > 0)
+                computerCards: this.state.computerCards.filter((card, i) => i > 0),
+                roundResult: '',
+                round: this.state.round + 1,
+                score: { player: this.state.score.player + 1, computer: this.state.score.computer }
             })
         } else if (result === 'lose') {
             this.setState({
                 computerCards: this.state.computerCards.concat(this.state.playerCards[0]),
-                playerCards: this.state.playerCards.filter((card, i) => i > 0)
+                playerCards: this.state.playerCards.filter((card, i) => i > 0),
+                roundResult: '',
+                round: this.state.round + 1,
+                score: { player: this.state.score.player, computer: this.state.score.computer + 1 }
             })
         }
     }
-
 
     render() {
         return (
             <div className="app">
                 {this.state.playerCards
-                    // .filter((card, i) => i === 0)
+                    .filter((card, i) => i === 0)
                     .map((card, i) => {
                         return <Card
                             key={i}
@@ -139,14 +143,17 @@ class App extends React.Component {
                 {console.log(!!this.state.roundResult)}
                 {!!this.state.roundResult &&
                     this.state.computerCards
-                        // .filter((card, i) => i === 0)
+                        .filter((card, i) => i === 0)
                         .map((card, i) => {
                             return <Card
                                 key={i}
                                 title={card.name}
                                 properties={card.properties}
                                 handleCardClick={this.handleCardClick} />
-                        })
+                        })}
+                {!!this.state.roundResult && <button
+                    className="btn__advance"
+                    onClick={e => this.roundAdvance(this.state.roundResult)}>Next Round</button>
                 }
             </div>
         )
