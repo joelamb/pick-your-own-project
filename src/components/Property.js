@@ -2,9 +2,9 @@ import React from 'react';
 
 import '../styles/components/property.scss';
 
-const Property = ({ property, value }) => {
+const Property = ({ property, value, onClick }) => {
     return (
-        <li className="card__property">{property}<span>{value}</span></li>
+        <li onClick={onClick} className="card__property">{property}<span>{value}</span></li>
     );
 }
 export default Property;

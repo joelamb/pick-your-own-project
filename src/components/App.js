@@ -14,10 +14,11 @@ class App extends React.Component {
             allCards: [],
             numCards: 5,
             playerCards: [],
-            computerCards: []
+            computerCards: [],
+            round: 1
         }
 
-        this.handleClick = this.handleClick.bind(this);
+        this.handleCardClick = this.handleCardClick.bind(this);
     }
 
     componentDidMount() {
@@ -88,20 +89,37 @@ class App extends React.Component {
         });
     }
 
-    handleClick(value) {
+    handleCardClick(value, key) {
+        console.log(this.state.playerCards);
+        console.log(this.state.computerCards);
         console.log(value);
+        console.log(this.state.computerCards[0].properties[key]);
+        const result = this.findRoundWinner(value, this.state.computerCards[0].properties[key]);
+        console.log(result);
+    }
+
+    findRoundWinner(playerValue, computerValue) {
+        return playerValue === computerValue ? "Draw! Pick another property" :
+            playerValue > computerValue ? "You Win!" :
+                "You Lose!"
+    }
+
+    advanceRound() {
+        this.setState({
+            round: this.state.round + 1
+        });
     }
 
 
     render() {
         return (
             <div className="app">
-                {this.state.playerCards.map((card, i) => {
+                {this.state.playerCards.filter((card, i) => i === 0).map((card, i) => {
                     return <Card
                         key={i}
                         title={card.name}
                         properties={card.properties}
-                        handleClick={this.handleClick} />
+                        handleCardClick={this.handleCardClick} />
                 })}
             </div>
         )
