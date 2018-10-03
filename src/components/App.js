@@ -34,30 +34,19 @@ class App extends React.Component {
             });
     }
 
-    dealCards(array, num) {
-        const deck = this.shuffleCards([...array])
-            .map(card => {
-                return Object.assign({}, {
-                    name: card.name,
-                    properties: {
-                        'crew': card.crew,
-                        'maximum speed': card.max_atmosphering_speed,
-                        'passengers': card.passengers,
-                        'cargo capacity': card.cargo_capacity,
-                        'consumable': card.consumables,
-                        'length': card.length,
-                        'cost (in credits)': card.cost_in_credits
-                    }
-                })
-            });
-        this.setState({
-            playerCards: deck.filter((card, i) => {
-                return i < num;
-            })
-        });
-        this.setState({
-            computerCards: deck.filter((card, i) => {
-                return i >= num && i < (num * 2);
+    cleanData(array) {
+        return array.map(card => {
+            return Object.assign({}, {
+                name: card.name,
+                properties: {
+                    'crew': card.crew,
+                    'maximum speed': card.max_atmosphering_speed,
+                    'passengers': card.passengers,
+                    'cargo capacity': card.cargo_capacity,
+                    'consumable': card.consumables,
+                    'length': card.length,
+                    'cost (in credits)': card.cost_in_credits
+                }
             })
         });
     }
@@ -81,6 +70,23 @@ class App extends React.Component {
         }
         return array;
     }
+
+
+    dealCards(array, num) {
+        const deck = this.shuffleCards(this.cleanData([...array]));
+
+        this.setState({
+            playerCards: deck.filter((card, i) => {
+                return i < num;
+            })
+        });
+        this.setState({
+            computerCards: deck.filter((card, i) => {
+                return i >= num && i < (num * 2);
+            })
+        });
+    }
+
 
     render() {
         return (
