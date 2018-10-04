@@ -1,0 +1,21 @@
+.scoreboard{
+    background: black;
+    color: lime;
+    display: flex;
+    justify-content: space-around;
+    p{
+        display:flex;
+        flex-direction: column;
+        text-align: center;
+    }
+    &__player{
+        order: 1;
+    }
+    &__computer{
+        order: 3;
+    }
+    &__round{
+        color: white;
+        order: 2;
+    }
+}
