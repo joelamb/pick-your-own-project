@@ -79,17 +79,20 @@ class App extends React.Component {
             return Object.assign({}, {
                 name: card.name,
                 properties: {
-                    'crew': !+card.crew ? "No data" : +card.crew,
-                    'maximum speed': !+card.max_atmosphering_speed ? "No data" : +card.max_atmosphering_speed,
-                    'passengers': !+card.passengers ? "No data" : +card.passengers,
-                    'cargo capacity': !+card.cargo_capacity ? "No data" : +card.cargo_capacity,
-                    // 'consumable': card.consumables,
-                    'length': !+card.length ? "No data" : +card.length,
-                    'cost (in credits)': !+card.cost_in_credits ? "No data" : +card.cost_in_credits
+                    'crew': this.stringToNumber(card.crew),
+                    'maximum speed': this.stringToNumber(card.max_atmosphering_speed),
+                    'passengers': this.stringToNumber(card.passengers),
+                    'cargo capacity': this.stringToNumber(card.cargo_capacity),
+                    'length': this.stringToNumber(card.length),
+                    'cost (in credits)': this.stringToNumber(card.cost_in_credits)
                 }
             })
         });
     };
+
+    stringToNumber(string) {
+        return !parseInt(string, 10) ? 'No data' : parseInt(string, 10);
+    }
 
     handleCardClick(value, key) {
         (value === 'No data') ? console.log("Please choose a different property") : this.findRoundWinner(value, this.state.computerCards[0].properties[key]);
@@ -191,14 +194,16 @@ class App extends React.Component {
 
                 {this.state.winner === 'player' &&
                     <React.Fragment>
-                        <h2>The winner you are! The Force is strong in you</h2>
+                        <h2>The winner you are!</h2>
+                        <h3>The Force is strong in you</h3>
                         <button className='btn btn__again' onClick={e => this.playAgain(this.state.allCards, this.state.numCards)}>Play Again</button>
                     </React.Fragment>
 
                 }
                 {this.state.winner === 'computer' &&
                     <React.Fragment>
-                        <h2>Lost you have young Jedi. Trust in the Force next time.</h2>
+                        <h2>Lost you have young Jedi.</h2>
+                        <h3>Trust in the Force you must.</h3>
                         <button
                             className='btn btn__again'
                             onClick={e => this.playAgain(this.state.allCards, this.state.numCards)}> Play Again
