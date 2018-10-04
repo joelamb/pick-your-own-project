@@ -22,6 +22,7 @@ class App extends React.Component {
         }
         this.handleCardClick = this.handleCardClick.bind(this);
         this.roundAdvance = this.roundAdvance.bind(this);
+        this.playAgain = this.playAgain.bind(this);
     }
 
     componentDidMount() {
@@ -145,6 +146,14 @@ class App extends React.Component {
         }
     }
 
+    playAgain(array, num) {
+        console.log("play again clicked");
+        this.setState({
+            winner: '',
+            roundResult: ''
+        }, () => this.dealCards(array, num));
+    }
+
     render() {
 
 
@@ -162,33 +171,38 @@ class App extends React.Component {
                     })}
                 {console.log(!!this.state.roundResult)}
                 {this.state.winner === '' && !!this.state.roundResult &&
-                    this.state.computerCards
-                        .filter((card, i) => i === 0)
-                        .map((card, i) => {
-                            return <Card
-                                key={i}
-                                title={card.name}
-                                properties={card.properties}
-                                handleCardClick={this.handleCardClick}
-                            />
-                        })}
-                {this.state.winner === '' && !!this.state.roundResult &&
-                    <button
-                        className="btn btn__advance"
-                        onClick={e => this.roundAdvance(this.state.roundResult)}>Next Round
-                    </button>
+                    <React.Fragment>
+                        {this.state.computerCards
+                            .filter((card, i) => i === 0)
+                            .map((card, i) => {
+                                return <Card
+                                    key={i}
+                                    title={card.name}
+                                    properties={card.properties}
+                                    handleCardClick={this.handleCardClick}
+                                />
+                            })}
+                        <button
+                            className="btn btn__advance"
+                            onClick={e => this.roundAdvance(this.state.roundResult)}>Next Round
+                        </button>
+                    </React.Fragment>
                 }
+
                 {this.state.winner === 'player' &&
                     <React.Fragment>
                         <h2>The winner you are! The Force is strong in you</h2>
-                        <button className='btn btn__again'>Play Again</button>
+                        <button className='btn btn__again' onClick={e => this.playAgain(this.state.allCards, this.state.numCards)}>Play Again</button>
                     </React.Fragment>
 
                 }
                 {this.state.winner === 'computer' &&
                     <React.Fragment>
                         <h2>Lost you have young Jedi. Trust in the Force next time.</h2>
-                        <button className='btn btn__again'>Play Again</button>
+                        <button
+                            className='btn btn__again'
+                            onClick={e => this.playAgain(this.state.allCards, this.state.numCards)}> Play Again
+                        </button>
                     </React.Fragment>
                 }
             </div>
