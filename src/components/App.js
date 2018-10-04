@@ -25,7 +25,7 @@ class App extends React.Component {
         }
         this.handleCardClick = this.handleCardClick.bind(this);
         this.roundAdvance = this.roundAdvance.bind(this);
-        this.playAgain = this.playAgain.bind(this);
+        this.startGame = this.startGame.bind(this);
     }
 
     componentDidMount() {
@@ -39,13 +39,22 @@ class App extends React.Component {
                 this.setState({
                     allCards: this.state.allCards.concat(data.results)
                 }, () => {
-                    !!data.next ? this.getData(data.next) : this.dealCards(this.state.allCards, this.state.numCards);
+                    !!data.next ? this.getData(data.next) : this.setState({ allCards: this.cleanData(this.state.allCards) })
                 });
             });
     };
 
+    startGame(array, num) {
+        this.setState({
+            winner: '',
+            roundResult: '',
+            round: 1,
+            score: { player: 0, computer: 0 }
+        }, () => this.dealCards(array, num));
+    }
+
     dealCards(array, num) {
-        const deck = this.shuffleCards(this.cleanData([...array]));
+        const deck = this.shuffleCards([...array]);
         this.setState({
             playerCards: deck.filter((card, i) => {
                 return i < num;
@@ -153,14 +162,6 @@ class App extends React.Component {
         }
     }
 
-    playAgain(array, num) {
-        this.setState({
-            winner: '',
-            roundResult: '',
-            round: '',
-            score: { player: 0, computer: 0 }
-        }, () => this.dealCards(array, num));
-    }
 
 
     render() {
@@ -170,7 +171,7 @@ class App extends React.Component {
         return (
             <div className="app">
 
-                <Start timer={this.gameTimer} />
+                <Start timer={this.gameTimer} startGame={this.startGame} allCards={this.state.allCards} numCards={this.state.numCards} />
 
                 <Scoreboard
                     playerScore={this.state.score.player}
@@ -214,9 +215,9 @@ class App extends React.Component {
 
                 <EndScreen
                     winner={this.state.winner}
-                    playAgain={this.playAgain}
+                    startGame={this.startGame}
                     allCards={this.state.allCards}
-                    numCard={this.state.numCards}
+                    numCards={this.state.numCards}
                 />
             </div>
         )
