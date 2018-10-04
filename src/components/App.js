@@ -150,19 +150,20 @@ class App extends React.Component {
     }
 
     playAgain(array, num) {
-        console.log("play again clicked");
         this.setState({
             winner: '',
             roundResult: ''
         }, () => this.dealCards(array, num));
     }
 
+
     render() {
 
+        const hasNoWinner = (this.state.winner === '');
 
         return (
             <div className="app">
-                {this.state.winner === '' && this.state.playerCards
+                {hasNoWinner && this.state.playerCards
                     .filter((card, i) => i === 0)
                     .map((card, i) => {
                         return <Card
@@ -173,7 +174,7 @@ class App extends React.Component {
                         />
                     })}
                 {console.log(!!this.state.roundResult)}
-                {this.state.winner === '' && !!this.state.roundResult &&
+                {hasNoWinner && !!this.state.roundResult &&
                     <React.Fragment>
                         {this.state.computerCards
                             .filter((card, i) => i === 0)

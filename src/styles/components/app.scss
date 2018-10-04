@@ -11,8 +11,12 @@ body {
     display: block;
 }
 
-h2{
+h2, h3{
     width: 80%;
-    margin: 40vh auto 0 auto;
     text-align: center;
+    margin: auto;
+}
+
+h2{
+    margin-top: 40vh;
 }
