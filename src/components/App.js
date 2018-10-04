@@ -133,7 +133,7 @@ class App extends React.Component {
                 this.setState({
                     inGame: false,
                     winner: 'player',
-                    hiScore: (this.state.round / this.state.numCards) * 999
+                    hiScore: (this.state.numCards / this.state.round) * 999
                 })
             }
         } else {

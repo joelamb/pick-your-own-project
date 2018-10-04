@@ -4,24 +4,25 @@ const EndScreen = ({ winner, startGame, allCards, numCards, hiScore }) => {
 
     return (
         <React.Fragment>
+
             {winner === 'player' &&
-                <React.Fragment>
-                    <h2>Winner you are!</h2>
-                    <h3>The Force is strong in you.</h3>
-                    <p>Your Star Trump Score is {hiScore}</p>
+                <div className="result">
+                    <h2 className="result__title">Winner you are!</h2>
+                    <h3 className="result__strapline">The Force is strong in you.</h3>
+                    <p className="result__score">Your Star Trump Score is {hiScore}</p>
                     <button className='btn btn__again' onClick={e => startGame(allCards, numCards)}>Play Again</button>
-                </React.Fragment>
+                </div>
             }
             {
                 winner === 'computer' &&
-                <React.Fragment>
-                    <h2>Lost you have, young Jedi!</h2>
-                    <h3>Trust in the Force you must.</h3>
+                <div>
+                    <h2 className="result__title">Lost you have, young Jedi!</h2>
+                    <h3 className="result__strapline">Trust in the Force you must.</h3>
                     <button
                         className='btn btn__again'
                         onClick={e => startGame(allCards, numCards)}> Play Again
                         </button>
-                </React.Fragment>
+                </div>
             }
         </React.Fragment>
     )
