@@ -1,7 +1,10 @@
 import React from 'react';
+import Start from './Start';
 import Card from './Card';
+import EndScreen from './EndScreen';
 
 import '../styles/components/app.scss';
+import Scoreboard from './Scoreboard';
 
 class App extends React.Component {
     constructor() {
@@ -154,6 +157,7 @@ class App extends React.Component {
         this.setState({
             winner: '',
             roundResult: '',
+            round: '',
             score: { player: 0, computer: 0 }
         }, () => this.dealCards(array, num));
     }
@@ -165,6 +169,15 @@ class App extends React.Component {
 
         return (
             <div className="app">
+
+                <Start timer={this.gameTimer} />
+
+                <Scoreboard
+                    playerScore={this.state.score.player}
+                    computerScore={this.state.score.computer}
+                    round={this.state.round}
+                />
+
                 {hasNoWinner && this.state.playerCards
                     .filter((card, i) => i === 0)
                     .map((card, i) => {
@@ -175,7 +188,7 @@ class App extends React.Component {
                             handleCardClick={this.handleCardClick}
                         />
                     })}
-                {console.log(!!this.state.roundResult)}
+
                 {hasNoWinner && !!this.state.roundResult &&
                     <React.Fragment>
                         <div className='round-result'>
@@ -196,28 +209,15 @@ class App extends React.Component {
                                     handleCardClick={this.handleCardClick}
                                 />
                             })}
-
                     </React.Fragment>
                 }
 
-                {this.state.winner === 'player' &&
-                    <React.Fragment>
-                        <h2>Winner you are!</h2>
-                        <h3>The Force is strong in you.</h3>
-                        <button className='btn btn__again' onClick={e => this.playAgain(this.state.allCards, this.state.numCards)}>Play Again</button>
-                    </React.Fragment>
-
-                }
-                {this.state.winner === 'computer' &&
-                    <React.Fragment>
-                        <h2>Lost you have, young Jedi!</h2>
-                        <h3>Trust in the Force you must.</h3>
-                        <button
-                            className='btn btn__again'
-                            onClick={e => this.playAgain(this.state.allCards, this.state.numCards)}> Play Again
-                        </button>
-                    </React.Fragment>
-                }
+                <EndScreen
+                    winner={this.state.winner}
+                    playAgain={this.playAgain}
+                    allCards={this.state.allCards}
+                    numCard={this.state.numCards}
+                />
             </div>
         )
     }
