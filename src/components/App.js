@@ -89,6 +89,9 @@ class App extends React.Component {
 
 
     cleanData(array) {
+        this.setState({
+            ready: true
+        });
         return array.map(card => {
             return Object.assign({}, {
                 name: card.name,
@@ -166,18 +169,20 @@ class App extends React.Component {
         }
     }
 
-
-
     render() {
-
         const hasNoWinner = (this.state.winner === '');
-
         return (
             <div className="app">
 
                 {!this.state.inGame && hasNoWinner &&
 
-                    < Start timer={this.gameTimer} startGame={this.startGame} allCards={this.state.allCards} numCards={this.state.numCards} />
+                    < Start
+                        timer={this.gameTimer}
+                        startGame={this.startGame}
+                        allCards={this.state.allCards}
+                        numCards={this.state.numCards}
+                        ready={this.state.ready}
+                    />
                 }
 
                 {this.state.inGame &&
