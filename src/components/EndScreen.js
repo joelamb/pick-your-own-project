@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EndScreen = ({ winner, startGame, allCards, numCards }) => {
+const EndScreen = ({ winner, startGame, allCards, numCards, hiScore }) => {
 
     return (
         <React.Fragment>
@@ -8,6 +8,7 @@ const EndScreen = ({ winner, startGame, allCards, numCards }) => {
                 <React.Fragment>
                     <h2>Winner you are!</h2>
                     <h3>The Force is strong in you.</h3>
+                    <p>Your Star Trump Score is {hiScore}</p>
                     <button className='btn btn__again' onClick={e => startGame(allCards, numCards)}>Play Again</button>
                 </React.Fragment>
             }

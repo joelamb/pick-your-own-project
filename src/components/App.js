@@ -12,7 +12,7 @@ class App extends React.Component {
         this.state = {
             url: "https://swapi.co/api/vehicles/?page=1",
             allCards: [],
-            numCards: 2,
+            numCards: 3,
             playerCards: [],
             computerCards: [],
             inGame: false,
@@ -22,7 +22,8 @@ class App extends React.Component {
                 player: 0,
                 computer: 0
             },
-            winner: ''
+            winner: '',
+            hiScore: 0
         }
         this.handleCardClick = this.handleCardClick.bind(this);
         this.roundAdvance = this.roundAdvance.bind(this);
@@ -118,7 +119,12 @@ class App extends React.Component {
     // calculate the round and overall winner
 
     findWinner(playerValue, computerValue) {
-        if (playerValue > computerValue) {
+        if (playerValue == computerValue) {
+            this.setState({
+                roundResult: 'draw'
+            });
+        }
+        else if (playerValue > computerValue) {
             this.setState({
                 roundResult: 'win',
                 score: Object.assign(this.state.score, { player: this.state.score.player + 1 })
@@ -126,7 +132,8 @@ class App extends React.Component {
             if (this.state.computerCards.length === 1) {
                 this.setState({
                     inGame: false,
-                    winner: 'player'
+                    winner: 'player',
+                    hiScore: (this.state.round / this.state.numCards) * 999
                 })
             }
         } else {
@@ -146,7 +153,19 @@ class App extends React.Component {
     //  Next Round button resets roundResult to "" and performs card collection
 
     roundAdvance(result) {
-        if (result === 'win') {
+        if (result === 'draw') {
+            this.setState({
+                playerCards: this.state.playerCards
+                    .map((card, i, array) => {
+                        if (i + 1 === array.length) { return array[0] } else { return array[i + 1] }
+                    }),
+                computerCards: this.state.computerCards.map((card, i, array) => {
+                    if (i + 1 === array.length) { return array[0] } else { return array[i + 1] }
+                }),
+                roundResult: '',
+                round: this.state.round + 1
+            })
+        } else if (result === 'win') {
             this.setState({
                 playerCards: this.state.playerCards.concat(this.state.computerCards[0])
                     .map((card, i, array) => {
@@ -232,6 +251,7 @@ class App extends React.Component {
                     startGame={this.startGame}
                     allCards={this.state.allCards}
                     numCards={this.state.numCards}
+                    hiScore={this.state.hiScore}
                 />
             </div>
         )
