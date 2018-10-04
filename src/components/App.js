@@ -175,7 +175,7 @@ class App extends React.Component {
         return (
             <div className="app">
 
-                {!this.state.inGame &&
+                {!this.state.inGame && hasNoWinner &&
 
                     < Start timer={this.gameTimer} startGame={this.startGame} allCards={this.state.allCards} numCards={this.state.numCards} />
                 }
