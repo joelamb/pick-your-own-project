@@ -136,9 +136,8 @@ class App extends React.Component {
                 this.setState({
                     inGame: false,
                     winner: 'player',
-                    hiScore: Math.floor((this.state.numCards / (Timer.get('game').time() / 1000)) * 999)
+                    hiScore: Math.ceil(this.state.numCards / (Timer.get('game').time() / 1000) * 999)
                 });
-                console.log(Timer.get('game').time());
                 Timer.destroy('game');
             }
         } else {
@@ -151,7 +150,6 @@ class App extends React.Component {
                     inGame: false,
                     winner: 'computer'
                 });
-                console.log(Timer.get('game').time());
                 Timer.destroy('game');
             }
         }
