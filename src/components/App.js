@@ -1,4 +1,5 @@
 import React from 'react';
+import Timer from 'timer-machine';
 import Start from './Start';
 import Card from './Card';
 import EndScreen from './EndScreen';
@@ -54,6 +55,7 @@ class App extends React.Component {
             round: 1,
             score: { player: 0, computer: 0 }
         }, () => this.dealCards(array, num));
+        Timer.get('game').start();
     }
 
     dealCards(array, num) {
@@ -119,6 +121,7 @@ class App extends React.Component {
     // calculate the round and overall winner
 
     findWinner(playerValue, computerValue) {
+        console.log(Timer.get('game').time())
         if (playerValue == computerValue) {
             this.setState({
                 roundResult: 'draw'
@@ -133,8 +136,10 @@ class App extends React.Component {
                 this.setState({
                     inGame: false,
                     winner: 'player',
-                    hiScore: (this.state.numCards / this.state.round) * 999
-                })
+                    hiScore: Math.floor((this.state.numCards / (this.state.round * (Timer.get('game').time() / 1000))) * 999)
+                });
+                console.log(Timer.get('game').time());
+                Timer.destroy('game');
             }
         } else {
             this.setState({
@@ -145,7 +150,9 @@ class App extends React.Component {
                 this.setState({
                     inGame: false,
                     winner: 'computer'
-                })
+                });
+                console.log(Timer.get('game').time());
+                Timer.destroy('game');
             }
         }
     }
