@@ -15,6 +15,7 @@ class App extends React.Component {
             numCards: 2,
             playerCards: [],
             computerCards: [],
+            inGame: false,
             round: 1,
             roundResult: '',
             score: {
@@ -46,6 +47,7 @@ class App extends React.Component {
 
     startGame(array, num) {
         this.setState({
+            inGame: true,
             winner: '',
             roundResult: '',
             round: 1,
@@ -120,6 +122,7 @@ class App extends React.Component {
             });
             if (this.state.computerCards.length === 1) {
                 this.setState({
+                    inGame: false,
                     winner: 'player'
                 })
             }
@@ -130,6 +133,7 @@ class App extends React.Component {
             });
             if (this.state.playerCards.length === 1) {
                 this.setState({
+                    inGame: false,
                     winner: 'computer'
                 })
             }
@@ -171,13 +175,18 @@ class App extends React.Component {
         return (
             <div className="app">
 
-                <Start timer={this.gameTimer} startGame={this.startGame} allCards={this.state.allCards} numCards={this.state.numCards} />
+                {!this.state.inGame &&
 
-                <Scoreboard
-                    playerScore={this.state.score.player}
-                    computerScore={this.state.score.computer}
-                    round={this.state.round}
-                />
+                    < Start timer={this.gameTimer} startGame={this.startGame} allCards={this.state.allCards} numCards={this.state.numCards} />
+                }
+
+                {this.state.inGame &&
+                    <Scoreboard
+                        playerScore={this.state.score.player}
+                        computerScore={this.state.score.computer}
+                        round={this.state.round}
+                    />
+                }
 
                 {hasNoWinner && this.state.playerCards
                     .filter((card, i) => i === 0)
