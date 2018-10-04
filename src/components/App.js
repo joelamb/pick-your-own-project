@@ -24,7 +24,8 @@ class App extends React.Component {
                 computer: 0
             },
             winner: '',
-            hiScore: 0
+            hiScore: 0,
+            leaderboard: []
         }
         this.handleCardClick = this.handleCardClick.bind(this);
         this.roundAdvance = this.roundAdvance.bind(this);
@@ -133,10 +134,13 @@ class App extends React.Component {
                 score: Object.assign(this.state.score, { player: this.state.score.player + 1 })
             });
             if (this.state.computerCards.length === 1) {
+                const gameTime = (Timer.get('game').time() / 1000);
+                const gameScore = Math.floor((this.state.numCards / gameTime) * 999);
                 this.setState({
                     inGame: false,
                     winner: 'player',
-                    hiScore: Math.ceil(this.state.numCards / (Timer.get('game').time() / 1000) * 999)
+                    hiScore: gameScore,
+                    leaderboard: this.state.leaderboard.concat(gameScore)
                 });
                 Timer.destroy('game');
             }
