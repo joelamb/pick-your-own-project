@@ -176,6 +176,14 @@ class App extends React.Component {
                 {console.log(!!this.state.roundResult)}
                 {hasNoWinner && !!this.state.roundResult &&
                     <React.Fragment>
+                        <div className='round-result'>
+                            <h3>You {this.state.roundResult}</h3>
+                            <button
+                                className="btn btn__advance"
+                                onClick={e => this.roundAdvance(this.state.roundResult)}>Next Round
+                            </button>
+                            <p>scroll down to see computer’s card</p>
+                        </div>
                         {this.state.computerCards
                             .filter((card, i) => i === 0)
                             .map((card, i) => {
@@ -186,10 +194,7 @@ class App extends React.Component {
                                     handleCardClick={this.handleCardClick}
                                 />
                             })}
-                        <button
-                            className="btn btn__advance"
-                            onClick={e => this.roundAdvance(this.state.roundResult)}>Next Round
-                        </button>
+
                     </React.Fragment>
                 }
 
