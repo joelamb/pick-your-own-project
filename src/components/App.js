@@ -9,7 +9,7 @@ class App extends React.Component {
         this.state = {
             url: "https://swapi.co/api/vehicles/?page=1",
             allCards: [],
-            numCards: 5,
+            numCards: 2,
             playerCards: [],
             computerCards: [],
             round: 1,
@@ -17,7 +17,8 @@ class App extends React.Component {
             score: {
                 player: 0,
                 computer: 0
-            }
+            },
+            winner: ''
         }
         this.handleCardClick = this.handleCardClick.bind(this);
         this.roundAdvance = this.roundAdvance.bind(this);
@@ -78,8 +79,8 @@ class App extends React.Component {
                 name: card.name,
                 properties: {
                     'crew': !+card.crew ? "No data" : +card.crew,
-                    'maximum speed': !+card.max_atmosphering_speed ? "No data" : card.max_atmosphering_speed,
-                    'passengers': !+card.passengers ? "No data" : card.passengers,
+                    'maximum speed': !+card.max_atmosphering_speed ? "No data" : +card.max_atmosphering_speed,
+                    'passengers': !+card.passengers ? "No data" : +card.passengers,
                     'cargo capacity': !+card.cargo_capacity ? "No data" : +card.cargo_capacity,
                     // 'consumable': card.consumables,
                     'length': !+card.length ? "No data" : +card.length,
@@ -98,15 +99,25 @@ class App extends React.Component {
             this.setState({
                 roundResult: 'win'
             });
+            if (this.state.computerCards.length === 1) {
+                this.setState({
+                    winner: 'player'
+                })
+            }
         } else {
             this.setState({
                 roundResult: 'lose'
             });
+            if (this.state.playerCards.length === 1) {
+                this.setState({
+                    winner: 'computer'
+                })
+            }
         }
+
     }
 
-    // click Next Round button to reset roundResult to "" and do card collection
-
+    //  Next Round button resets roundResult to "" and performs card collection
 
     roundAdvance(result) {
         if (result === 'win') {
@@ -135,19 +146,22 @@ class App extends React.Component {
     }
 
     render() {
+
+
         return (
             <div className="app">
-                {this.state.playerCards
+                {this.state.winner === '' && this.state.playerCards
                     .filter((card, i) => i === 0)
                     .map((card, i) => {
                         return <Card
                             key={i}
                             title={card.name}
                             properties={card.properties}
-                            handleCardClick={this.handleCardClick} />
+                            handleCardClick={this.handleCardClick}
+                        />
                     })}
                 {console.log(!!this.state.roundResult)}
-                {!!this.state.roundResult &&
+                {this.state.winner === '' && !!this.state.roundResult &&
                     this.state.computerCards
                         .filter((card, i) => i === 0)
                         .map((card, i) => {
@@ -155,11 +169,27 @@ class App extends React.Component {
                                 key={i}
                                 title={card.name}
                                 properties={card.properties}
-                                handleCardClick={this.handleCardClick} />
+                                handleCardClick={this.handleCardClick}
+                            />
                         })}
-                {!!this.state.roundResult && <button
-                    className="btn__advance"
-                    onClick={e => this.roundAdvance(this.state.roundResult)}>Next Round</button>
+                {this.state.winner === '' && !!this.state.roundResult &&
+                    <button
+                        className="btn btn__advance"
+                        onClick={e => this.roundAdvance(this.state.roundResult)}>Next Round
+                    </button>
+                }
+                {this.state.winner === 'player' &&
+                    <React.Fragment>
+                        <h2>The winner you are! The Force is strong in you</h2>
+                        <button className='btn btn__again'>Play Again</button>
+                    </React.Fragment>
+
+                }
+                {this.state.winner === 'computer' &&
+                    <React.Fragment>
+                        <h2>Lost you have young Jedi. Trust in the Force next time.</h2>
+                        <button className='btn btn__again'>Play Again</button>
+                    </React.Fragment>
                 }
             </div>
         )

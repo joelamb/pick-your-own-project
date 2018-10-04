@@ -2,11 +2,17 @@ body {
   background-color: Cornsilk;
 }
 
-.btn__advance{
+.btn{
     border: 1px solid gray;
     border-radius: 1rem;
     margin: 1rem auto;
     padding: 1rem;
     box-shadow: 0 1px 3px rgba(0,0,0,0.4);
     display: block;
+}
+
+h2{
+    width: 80%;
+    margin: 40vh auto 0 auto;
+    text-align: center;
 }
