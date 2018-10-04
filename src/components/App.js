@@ -103,7 +103,8 @@ class App extends React.Component {
     findWinner(playerValue, computerValue) {
         if (playerValue > computerValue) {
             this.setState({
-                roundResult: 'win'
+                roundResult: 'win',
+                score: Object.assign(this.state.score, { player: this.state.score.player + 1 })
             });
             if (this.state.computerCards.length === 1) {
                 this.setState({
@@ -112,7 +113,8 @@ class App extends React.Component {
             }
         } else {
             this.setState({
-                roundResult: 'lose'
+                roundResult: 'lose',
+                score: Object.assign(this.state.score, { computer: this.state.score.computer + 1 })
             });
             if (this.state.playerCards.length === 1) {
                 this.setState({
@@ -120,7 +122,6 @@ class App extends React.Component {
                 })
             }
         }
-
     }
 
     //  Next Round button resets roundResult to "" and performs card collection
@@ -134,8 +135,7 @@ class App extends React.Component {
                     }),
                 computerCards: this.state.computerCards.filter((card, i) => i > 0),
                 roundResult: '',
-                round: this.state.round + 1,
-                score: { player: this.state.score.player + 1, computer: this.state.score.computer }
+                round: this.state.round + 1
             })
         } else if (result === 'lose') {
             this.setState({
@@ -145,8 +145,7 @@ class App extends React.Component {
                     }),
                 playerCards: this.state.playerCards.filter((card, i) => i > 0),
                 roundResult: '',
-                round: this.state.round + 1,
-                score: { player: this.state.score.player, computer: this.state.score.computer + 1 }
+                round: this.state.round + 1
             })
         }
     }
@@ -154,7 +153,8 @@ class App extends React.Component {
     playAgain(array, num) {
         this.setState({
             winner: '',
-            roundResult: ''
+            roundResult: '',
+            score: { player: 0, computer: 0 }
         }, () => this.dealCards(array, num));
     }
 
