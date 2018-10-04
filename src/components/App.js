@@ -95,10 +95,12 @@ class App extends React.Component {
     }
 
     handleCardClick(value, key) {
-        (value === 'No data') ? console.log("Please choose a different property") : this.findRoundWinner(value, this.state.computerCards[0].properties[key]);
+        (value === 'No data') ? console.log("Please choose a different property") : this.findWinner(value, this.state.computerCards[0].properties[key]);
     };
 
-    findRoundWinner(playerValue, computerValue) {
+    // calculate the round and overall winner
+
+    findWinner(playerValue, computerValue) {
         if (playerValue > computerValue) {
             this.setState({
                 roundResult: 'win'
@@ -200,15 +202,15 @@ class App extends React.Component {
 
                 {this.state.winner === 'player' &&
                     <React.Fragment>
-                        <h2>The winner you are!</h2>
-                        <h3>The Force is strong in you</h3>
+                        <h2>Winner you are!</h2>
+                        <h3>The Force is strong in you.</h3>
                         <button className='btn btn__again' onClick={e => this.playAgain(this.state.allCards, this.state.numCards)}>Play Again</button>
                     </React.Fragment>
 
                 }
                 {this.state.winner === 'computer' &&
                     <React.Fragment>
-                        <h2>Lost you have young Jedi.</h2>
+                        <h2>Lost you have, young Jedi!</h2>
                         <h3>Trust in the Force you must.</h3>
                         <button
                             className='btn btn__again'
