@@ -13,7 +13,7 @@ class App extends React.Component {
         this.state = {
             url: "https://swapi.co/api/vehicles/?page=1",
             allCards: [],
-            numCards: 3,
+            numCards: 1,
             playerCards: [],
             computerCards: [],
             inGame: false,
@@ -136,7 +136,7 @@ class App extends React.Component {
                 this.setState({
                     inGame: false,
                     winner: 'player',
-                    hiScore: Math.floor((this.state.numCards / (this.state.round * (Timer.get('game').time() / 1000))) * 999)
+                    hiScore: Math.floor((this.state.numCards / (Timer.get('game').time() / 1000)) * 999)
                 });
                 console.log(Timer.get('game').time());
                 Timer.destroy('game');

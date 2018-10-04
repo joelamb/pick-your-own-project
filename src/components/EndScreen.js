@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/components/endscreen.scss';
 
 const EndScreen = ({ winner, startGame, allCards, numCards, hiScore }) => {
 
