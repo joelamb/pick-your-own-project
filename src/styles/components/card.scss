@@ -1,21 +1,18 @@
 .card {
+    background: transparent;
     margin: 0.5rem auto;
     padding: 1rem;
     width: 90%;
-    border: 1px solid gray;
-    &__title {
-        font-size: 1.5rem;
-        margin: inherit;
-        width: inherit;
-    }
+    border: none;
+    // border: 1px solid gray;
     &__image {
         margin:inherit;
         width: inherit;
     }
-    &__properties {
-        list-style-type: none;
-        margin: inherit;
-        padding: 0;
-        width: inherit;
+    &__options {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 2rem;
     }
+    
 }
