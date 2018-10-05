@@ -7,8 +7,11 @@
   border: none;
   // border: 1px solid gray;
   &__image {
-    width: inherit;
+    width: 75%;
     margin: 3rem auto 0;
+    transform: rotate(5deg);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+    border-radius: 12px;
   }
   &__options {
     display: flex;
@@ -24,5 +27,8 @@
     position: absolute;
     top: 2rem;
     z-index: -10;
+    .card__image {
+      transform: rotate(-5deg);
+    }
   }
 }

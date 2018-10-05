@@ -286,7 +286,6 @@ class App extends React.Component {
                 >
                   Next Round
                 </button>
-                <p>scroll down to see computer’s card</p>
               </div>
               {this.state.computerCards
                 .filter((card, i) => i === 0)

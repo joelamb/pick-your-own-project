@@ -1,8 +1,31 @@
-.result{
+.result {
+  background: url('../../assets/images/brucie.png') -80px 43vh no-repeat;
   height: 100vh;
+  h2 {
+    padding-top: 10vh;
+    width: 100%;
+    font-size: 1.8rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
+  &__bonus {
+    width: 80%;
+    margin: 2rem auto;
+    text-align: center;
+    color: white;
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 0.5rem;
+    p {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 0;
+      font-size: 2rem;
+    }
+  }
 }
 
-p{
-    width: 100%;
-    text-align: center;
+.btn__again {
+  margin-top: 15rem;
 }
