@@ -1,19 +1,28 @@
 .card {
-    background: transparent;
-    margin: 0.5rem auto;
-    padding: 1rem;
-    height: calc(100vh - 5rem);
-    width: 90%;
-    border: none;
-    // border: 1px solid gray;
-    &__image {
-        margin:inherit;
-        width: inherit;
+  background: transparent;
+  margin: 0.5rem auto;
+  padding: 1rem;
+  height: calc(100vh - 5rem);
+  width: 90%;
+  border: none;
+  // border: 1px solid gray;
+  &__image {
+    width: inherit;
+    margin: 3rem auto 0;
+  }
+  &__options {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+    .btn {
+      font-size: 1.5rem;
     }
-    &__options {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 2rem;
-    }
-    
+  }
+  .btn__lower {
+  }
+  &__computer {
+    position: absolute;
+    top: 2rem;
+    z-index: -10;
+  }
 }

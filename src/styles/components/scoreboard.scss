@@ -1,22 +1,26 @@
-.scoreboard{
+.scoreboard {
   height: 4rem;
-    background: black;
-    color: lime;
+  background: black;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  text-transform: uppercase;
+  padding-top: 10px;
+  p {
     display: flex;
-    justify-content: space-around;
-    p{
-        display:flex;
-        flex-direction: column;
-        text-align: center;
-    }
-    &__player{
-        order: 1;
-    }
-    &__computer{
-        order: 3;
-    }
-    &__round{
-        color: white;
-        order: 2;
-    }
+    flex-direction: column;
+    text-align: center;
+  }
+  &__player {
+    order: 1;
+    border-right: 1px solid white;
+  }
+  &__computer {
+    order: 3;
+    border-left: 1px solid white;
+  }
+  &__round {
+    color: white;
+    order: 2;
+  }
 }
