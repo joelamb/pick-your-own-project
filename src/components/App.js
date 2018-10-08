@@ -271,8 +271,7 @@ class App extends React.Component {
                 img={card.img}
                 value={card.value}
                 handleBidClick={this.handleBidClick}
-
-              ><Card />
+              />
             );
           })}
 
