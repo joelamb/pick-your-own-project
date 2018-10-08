@@ -3,6 +3,7 @@ import Timer from 'timer-machine';
 import Start from './Start';
 import Card from './Card';
 import Bid from './Bid';
+import RoundResult from './RoundResult';
 import EndScreen from './EndScreen';
 
 import '../styles/components/app.scss';
@@ -259,12 +260,7 @@ class App extends React.Component {
         {hasNoWinner &&
           this.state.playerCards.filter((card, i) => i === 0).map((card, i) => {
             return (
-              <Card
-                key={i}
-                img={card.img}
-                // value={card.value}
-                // handleBidClick={this.handleBidClick}
-              >
+              <Card key={i} img={card.img}>
                 <Bid value={card.value} handleBidClick={this.handleBidClick} />
               </Card>
             );
@@ -273,15 +269,10 @@ class App extends React.Component {
         {hasNoWinner &&
           !!this.state.roundResult && (
             <React.Fragment>
-              <div className="round-result">
-                <h3>You {this.state.roundResult}</h3>
-                <button
-                  className="btn btn__advance"
-                  onClick={e => this.roundAdvance(this.state.roundResult)}
-                >
-                  Next Round
-                </button>
-              </div>
+              <RoundResult
+                result={this.state.roundResult}
+                roundAdvance={this.roundAdvance}
+              />
               {this.state.computerCards
                 .filter((card, i) => i === 0)
                 .map((card, i) => {

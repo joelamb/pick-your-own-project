@@ -1,12 +1,10 @@
 import React from 'react';
 import cx from 'classnames';
-import Bid from './Bid';
 
 import '../styles/components/card.scss';
 
-const Card = ({ img, value, children }) => {
+const Card = ({ img, children }) => {
   // add conditional style to put computer's card at back
-
   const cardClass = cx('card', {
     card__computer: !children
   });
