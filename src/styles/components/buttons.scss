@@ -1,0 +1,14 @@
+.btn {
+  background-image: linear-gradient(to bottom, gold 20%, orange);
+  border: none;
+  border-top: 1px solid papayawhip;
+  border-right: 1px solid darkgoldenrod;
+  border-bottom: 4px solid darkgoldenrod;
+  border-radius: 8px;
+  margin: 1rem auto;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  display: block;
+  text-shadow: 0 -1px 0 darkgoldenrod;
+  color: white;
+}

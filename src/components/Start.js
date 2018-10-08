@@ -1,14 +1,13 @@
 import React from 'react';
+import Button from './Button';
 
 import '../styles/components/start.scss';
 
 class Start extends React.Component {
   constructor() {
     super();
-    this.startTimer = this.startTimer.bind(this);
   }
 
-  startTimer() {}
   render() {
     return (
       <div className="start">
@@ -38,14 +37,13 @@ class Start extends React.Component {
         </ol>
 
         {this.props.ready && (
-          <button
+          <Button
             className="btn btn__start"
-            onClick={e =>
+            label="Start"
+            onClick={() =>
               this.props.startGame(this.props.allCards, this.props.numCards)
             }
-          >
-            Start
-          </button>
+          />
         )}
       </div>
     );

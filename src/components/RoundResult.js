@@ -1,6 +1,8 @@
 import React from 'react';
 import Button from './Button';
 
+import '../styles/components/roundresult.scss';
+
 const RoundResult = ({ result, roundAdvance }) => {
   return (
     <div className="round-result">

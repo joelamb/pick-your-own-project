@@ -47,4 +47,20 @@ describe('App', () => {
     const expected = ['a', 'd', 'b', 'c'];
     expect(result).toEqual(expected);
   });
+
+  test('move card to end of array', () => {
+    const result = instance.cardToEnd(['a', 'b', 'c', 'd']);
+    const expected = ['b', 'c', 'd', 'a'];
+    expect(result).toEqual(expected);
+  });
+
+  test('start game initialises state conditions', () => {
+    instance.startGame(['a', 'b', 'c', 'd'], 2);
+    expect(instance.state.inGame).toEqual(true);
+    expect(instance.state.winner).toEqual('');
+    expect(instance.state.roundResult).toEqual('');
+    expect(instance.state.round).toEqual(1);
+    expect(instance.state.score.player).toEqual(2);
+    expect(instance.state.score.player).toEqual(2);
+  });
 });
