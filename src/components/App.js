@@ -2,6 +2,7 @@ import React from 'react';
 import Timer from 'timer-machine';
 import Start from './Start';
 import Card from './Card';
+import Bid from './Bid';
 import EndScreen from './EndScreen';
 
 import '../styles/components/app.scss';
@@ -137,15 +138,7 @@ class App extends React.Component {
   // calculate the round and overall winner
 
   findWinner(bid, playerValue, computerValue) {
-    // console.log(Timer.get('game').time())
-    console.log(playerValue);
-    console.log(computerValue);
-    console.log(bid);
-
     const outcome = playerValue - computerValue;
-
-    console.log(outcome);
-
     if (
       (bid === 'higher' && outcome < 0) ||
       (bid === 'lower' && outcome > 0) ||
@@ -269,9 +262,11 @@ class App extends React.Component {
               <Card
                 key={i}
                 img={card.img}
-                value={card.value}
-                handleBidClick={this.handleBidClick}
-              />
+                // value={card.value}
+                // handleBidClick={this.handleBidClick}
+              >
+                <Bid value={card.value} handleBidClick={this.handleBidClick} />
+              </Card>
             );
           })}
 

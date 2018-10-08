@@ -27,9 +27,9 @@ class Start extends React.Component {
           <li>Look at your card.</li>
           <li>What will the computer’s card be?</li>
           <li>
-            Higher <i class="far fa-hand-point-up" />, Lower{' '}
-            <i class="far fa-hand-point-down" />, Same{' '}
-            <i class="far fa-hand-rock" />
+            Higher <i className="far fa-hand-point-up" />, Lower{' '}
+            <i className="far fa-hand-point-down" />, Same{' '}
+            <i className="far fa-hand-rock" />
           </li>
 
           <li>If you win, you get both cards</li>
