@@ -100,21 +100,20 @@ class App extends React.Component {
 
   // initialise game conditions and start game timer
   startGame(array, num) {
-    this.setState(
-      {
-        inGame: true, // for conditional rendering of game play elements
-        winner: '', // for conditional rendering of endframe
-        roundResult: '', // for conditional rendering of round result
-        round: 1, // track game progress
-        score: { player: num, computer: num }
-      },
-      () => this.dealCards(array, num)
-    );
+    this.setState({
+      inGame: true, // for conditional rendering of game play elements
+      winner: '', // for conditional rendering of endframe
+      roundResult: '', // for conditional rendering of round result
+      round: 1, // track game progress
+      score: { player: num, computer: num }
+    });
+    const shuffledCards = this.shuffleCards(array);
+    this.dealCards(shuffledCards, num);
     Timer.get('game').start(); // start game timer
   }
 
   dealCards(array, num) {
-    const deck = this.shuffleCards([...array]);
+    const deck = [...array];
     this.setState({
       playerCards: deck.filter((card, i) => {
         return i < num;
@@ -243,14 +242,15 @@ class App extends React.Component {
     return (
       <div className="app">
         {/* show start screen on app load */}
-        {!this.state.inGame && (
-          <Start
-            startGame={this.startGame}
-            allCards={this.state.allCards}
-            numCards={this.state.numCards}
-            ready={this.state.ready}
-          />
-        )}
+        {!this.state.inGame &&
+          hasNoWinner && (
+            <Start
+              startGame={this.startGame}
+              allCards={this.state.allCards}
+              numCards={this.state.numCards}
+              ready={this.state.ready}
+            />
+          )}
         {/* show scoreboard and player's card on game start */}
         {this.state.inGame && (
           <Scoreboard
